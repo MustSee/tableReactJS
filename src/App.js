@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import apps from './datas';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import './App.css';
 
 class AppRow extends React.Component {
@@ -94,6 +95,62 @@ class DropdownList extends React.Component {
   }
 }
 
+/******************
+** CSS EXAMPLE  ***
+******************/
+
+class CssExample extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {items : ['click', 'to', 'add', 'item']};
+    this.handleAdd = this.handleAdd.bind(this);
+  }
+
+  handleAdd(){
+    const newItems = this.state.items.concat([
+      prompt('Enter some text')
+    ]);
+    this.setState({items: newItems});
+  }
+
+  handleRemove(i){
+    let newItems = this.state.items.slice();
+    newItems.splice(i, 1);
+    this.setState({items : newItems});
+  }
+
+  render(){
+
+    console.log(this.state.items);
+
+    const items = this.state.items.map((item, index) => {
+      return (
+        <div key={item} onClick={() => this.handleRemove(index)}>
+          {item}
+        </div>
+      )
+    });
+
+    return (
+      <div>
+        <button onClick={this.handleAdd}>Add Item</button>
+        <ReactCSSTransitionGroup
+          transitionName="example"
+          transitionEnterTimeout={2000}
+          transitionLeaveTimeout={2000}>
+          {items}
+          </ReactCSSTransitionGroup>
+      </div>
+    );
+  }
+}
+
+/******************
+** FIN CSS EXAMPLE  ***
+******************/
+
+
+
 class FilterableAppsTable extends React.Component {
 
   constructor(props) {
@@ -113,6 +170,8 @@ class FilterableAppsTable extends React.Component {
   render() {
     return (
       <div>
+        <CssExample />
+
         <DropdownList
           env={this.state.env}
           handleOnEnvChange ={this.handleEnvChange}
