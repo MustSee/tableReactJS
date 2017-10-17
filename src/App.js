@@ -3,6 +3,7 @@ import apps from './datas';
 import './App.css';
 
 class AppRow extends React.Component {
+
   render() {
     const app = this.props.app;
     const name = app.name;
@@ -19,17 +20,41 @@ class AppRow extends React.Component {
   }
 }
 
+// Displays and filters the data collection based on user input
 class AppsTable extends React.Component {
   render() {
 
+    const env = this.props.env;
+
     const rows = [];
 
-    this.props.apps.forEach(app => {
-      rows.push(
-        <AppRow
-          app={app} key={app.name}/>
-      );
-    })
+    // Find a better way to this conditionnal rendering 
+    if (env === 'all') {
+      this.props.apps.map((app, index) => {
+        return rows.push(
+          <AppRow
+            app={app} key={index} env={env}/>
+        );
+      })
+    } else if (env === 'stagging'){
+      // Add toLowerCase() method
+      this.props.apps.filter(app => app.environment === 'stagging').map(
+        (app, index) => {
+          return rows.push(
+            <AppRow
+              app={app} key={index} env={env}/>
+          );
+        })
+    } else {  // si env == 'prod'
+      this.props.apps.filter(app => app.environment === 'prod').map(
+        (app, index) => {
+          return rows.push(
+            <AppRow
+              app={app} key={index} env={env}/>
+          );
+        })
+    }
+
 
     return (
       <table>
@@ -46,11 +71,16 @@ class AppsTable extends React.Component {
   }
 }
 
+// Receives all user input
 class DropdownList extends React.Component {
+
   render() {
+
+    const env = this.props.env
+
     return (
-      <select>
-        <option selected value="all">All</option>
+      <select value={env}>
+        <option value="all">All</option>
         <option value="stagging">Developpement</option>
         <option value="prod">Production</option>
       </select>
@@ -60,11 +90,18 @@ class DropdownList extends React.Component {
 
 class FilterableAppsTable extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      env : 'stagging'
+    }
+  }
+
   render() {
     return (
       <div>
-        <DropdownList />
-        <AppsTable apps={this.props.apps}/>
+        <DropdownList env={this.state.env}/>
+        <AppsTable apps={this.props.apps} env={this.state.env}/>
       </div>
     );
   }

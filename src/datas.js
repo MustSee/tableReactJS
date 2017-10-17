@@ -7,7 +7,9 @@ var apps = [
 
     {environment: "stagging", name: "tennis.fr", date: "30/10/2017"},
 
-    {environment: "prod", name: "pong.fr", date: "22/10/2016"}
+    {environment: "prod", name: "pong.fr", date: "22/10/2016"},
+
+    {environment: "stagging", name: "rocket.fr", date: "22/11/2016"}
 ];
 
 export default apps;
