@@ -28,7 +28,7 @@ class AppsTable extends React.Component {
 
     const rows = [];
 
-    // Find a better way to this conditionnal rendering 
+    // Find a better way to this conditionnal rendering
     if (env === 'all') {
       this.props.apps.map((app, index) => {
         return rows.push(
@@ -73,13 +73,19 @@ class AppsTable extends React.Component {
 
 // Receives all user input
 class DropdownList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleEnv = this.handleEnv.bind(this);
+  }
+
+  handleEnv(e) {
+    this.props.handleOnEnvChange(e.target.value);
+  }
 
   render() {
 
-    const env = this.props.env
-
     return (
-      <select value={env}>
+      <select value={this.props.env} onChange={this.handleEnv}>
         <option value="all">All</option>
         <option value="stagging">Developpement</option>
         <option value="prod">Production</option>
@@ -93,15 +99,28 @@ class FilterableAppsTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      env : 'stagging'
+      env : 'all'
     }
+    this.handleEnvChange = this.handleEnvChange.bind(this);
+  }
+
+  handleEnvChange(env) {
+    this.setState({
+      env : env
+    })
   }
 
   render() {
     return (
       <div>
-        <DropdownList env={this.state.env}/>
-        <AppsTable apps={this.props.apps} env={this.state.env}/>
+        <DropdownList
+          env={this.state.env}
+          handleOnEnvChange ={this.handleEnvChange}
+        />
+        <AppsTable
+          apps={this.props.apps}
+          env={this.state.env}
+        />
       </div>
     );
   }
