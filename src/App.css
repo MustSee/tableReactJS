@@ -1,17 +1,38 @@
-.example-enter {
-  opacity: 0.01;
+table {
+  margin-top: 50px;
+  min-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.5;
+  font-size: larger;
 }
 
-.example-enter.example-enter-active {
-  opacity: 1;
-  transition: opacity 500ms ease-in;
+
+tbody tr div {
+  overflow: hidden;
 }
 
-.example-leave {
-  opacity: 1;
+table tr, td {
+  border : 1px solid black;
 }
 
-.example-leave.example-leave-active {
-  opacity: 0.01;
-  transition: opacity 300ms ease-in;
+tbody tr:nth-of-type(odd) {
+  background: #eee;
+}
+
+
+td {
+  width: 33%;
+  text-align: center;
+  vertical-align: text-top;
+  cursor:pointer;
+  margin: 0;
+  padding: 10px 0 10px 0;
+}
+
+.chooseEnv {
+  padding: 10px 8px 10px 14px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
 }
