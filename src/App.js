@@ -5,6 +5,21 @@ import './App.css';
 
 class AppRow extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      isTrClicked : false
+    }
+    this.changeRow = this.changeRow.bind(this);
+  }
+
+  changeRow(e) {
+    console.log('the tr was clicked');
+    this.setState(prevState => ({
+      isTrClicked: !prevState.isTrClicked
+    }));
+  }
+
   render() {
     const app = this.props.app;
     const name = app.name;
@@ -12,8 +27,16 @@ class AppRow extends React.Component {
     const date = app.date;
 
     return(
-      <tr>
-        <td>{name}</td>
+      <tr onClick={this.changeRow}
+          style=
+            {
+              this.state.isTrClicked ?
+              {backgroundColor:"#ff5050"} :
+              {backgroundColor:null}
+            }
+      >
+
+        <td>{name[0].fdqn}</td>
         <td>{env}</td>
         <td>{date}</td>
       </tr>
@@ -136,8 +159,8 @@ class CssExample extends React.Component {
         <button onClick={this.handleAdd}>Add Item</button>
         <ReactCSSTransitionGroup
           transitionName="example"
-          transitionEnterTimeout={2000}
-          transitionLeaveTimeout={2000}>
+          transitionEnterTimeout={1000}
+          transitionLeaveTimeout={500}>
           {items}
           </ReactCSSTransitionGroup>
       </div>
