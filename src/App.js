@@ -9,7 +9,7 @@ class AppRow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isTrClicked : false
+      isTrClicked : false,
     }
     this.changeRow = this.changeRow.bind(this);
   }
@@ -19,7 +19,6 @@ class AppRow extends React.Component {
     overflow: hidden;
   }
 */
-
   changeRow() {
     const tr = this.refs.tr; // Get DOM Element
     // Get infos about tr. try : document.body.getBoundingClientRect();
@@ -57,6 +56,7 @@ class AppRow extends React.Component {
       });
     }
   }
+
 
   render() {
     const app = this.props.app;
@@ -193,71 +193,15 @@ class DropdownList extends React.Component {
 
     return (
       <div className="chooseEnv">
-        <select value={this.props.env} onChange={this.handleEnv}>
-          <option value="all">All</option>
-          <option value="stagging">Developpement</option>
-          <option value="prod">Production</option>
-        </select>
+          <select value={this.props.env} onChange={this.handleEnv}>
+            <option value="all">All</option>
+            <option value="stagging">Developpement</option>
+            <option value="prod">Production</option>
+          </select>
       </div>
     )
   }
 }
-
-/******************
-** CSS EXAMPLE  ***
-******************/
-
-// class CssExample extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {items : ['click', 'to', 'add', 'item']};
-//     this.handleAdd = this.handleAdd.bind(this);
-//   }
-//
-//   handleAdd(){
-//     const newItems = this.state.items.concat([
-//       prompt('Enter some text')
-//     ]);
-//     this.setState({items: newItems});
-//   }
-//
-//   handleRemove(i){
-//     let newItems = this.state.items.slice();
-//     newItems.splice(i, 1);
-//     this.setState({items : newItems});
-//   }
-//
-//   render(){
-//
-//     console.log(this.state.items);
-//
-//     const items = this.state.items.map((item, index) => {
-//       return (
-//         <div key={item} onClick={() => this.handleRemove(index)}>
-//           {item}
-//         </div>
-//       )
-//     });
-//
-//     return (
-//       <div>
-//         <button onClick={this.handleAdd}>Add Item</button>
-//         <ReactCSSTransitionGroup
-//           transitionName="example"
-//           transitionEnterTimeout={1000}
-//           transitionLeaveTimeout={500}>
-//           {items}
-//           </ReactCSSTransitionGroup>
-//       </div>
-//     );
-//   }
-// }
-
-/******************
-** FIN CSS EXAMPLE  ***
-******************/
-
-
 
 class FilterableAppsTable extends React.Component {
 
