@@ -10,6 +10,7 @@ class AppRow extends React.Component {
     super(props);
     this.state = {
       isTrClicked : false,
+      isOutdated : false
     }
     this.changeRow = this.changeRow.bind(this);
   }
@@ -57,17 +58,24 @@ class AppRow extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const date = this.props.app.date;
+    // We change the typeof "date = app.date" from string to date object
+    // This allow us to compare the date with the currentDate - new DateTime
+    var dateCompare = new Date(date.split('/').reverse().join('-')).getTime();
+    console.log(this, Date.now() - dateCompare)
+    if((Date.now() - dateCompare) > 0) {
+      this.setState(
+        {isOutdated : true}
+      );
+    }
+  }
 
   render() {
     const app = this.props.app;
     const name = app.name;
     const env = app.environment;
     const date = app.date;
-
-    // We change the typeof "date = app.date" from string to date object
-    // This allow us to compare the date with the currentDate - new DateTime
-    var dateCompare = date.split('/').reverse().join('-');
-    dateCompare = new Date(dateCompare);
 
     let clicked = this.state.isTrClicked;
 
@@ -77,9 +85,12 @@ class AppRow extends React.Component {
       )
     })
 
+
+
+
     return(
        clicked ?
-         <tr onClick={this.changeRow}>
+         <tr onClick={this.changeRow} className={this.state.isOutdated?"getRed":null}>
            <td>
              {/* Set ref */}
              {/* We set a div around as we had problems with table properties */}
@@ -89,13 +100,10 @@ class AppRow extends React.Component {
             </div>
            </td>
            <td>{env}</td>
-           {new Date() > dateCompare ?
-             <td style={{backgroundColor:"red"}}>{date}</td> :
-             <td>{date}</td>
-           }
+          <td>{date}</td>
          </tr>
       :
-        <tr onClick={this.changeRow}>
+        <tr onClick={this.changeRow} className={this.state.isOutdated?"getRed":null}>
           <td>
             {/* Set ref */}
             <div ref="tr">
@@ -103,10 +111,7 @@ class AppRow extends React.Component {
             </div>
           </td>
           <td>{env}</td>
-          {new Date() > dateCompare ?
-            <td style={{backgroundColor:"red"}}>{date}</td> :
-            <td>{date}</td>
-          }
+          <td>{date}</td>
         </tr>
     )
   }
@@ -240,8 +245,13 @@ class FilterableAppsTable extends React.Component {
 class App extends Component {
   render() {
 
+    // les json datas que l'on passe en props
     const APPS = apps;
     console.log(APPS);
+
+    console.log(
+      APPS.filter(app => app.defaultEnv.filter(env => env.name === 'ENV'))
+    );
 
     return (
       <FilterableAppsTable apps={APPS} />
